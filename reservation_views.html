@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RESTAURANT HOME PAGE</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class='jumbotron'>
+        <h1>Hot Restaurant</h1>
+        <hr>
+        <h3>Current Reservations and Waiting List</h3>
+        <a href="/form"><button class="btn btn-danger btn-lg" id="reservation"><span class="fa fa-table">Make
+                    Reservation</span></button></a>
+        <a href="/"><button class="btn btn-danger btn-lg" id="home"><span class="fa fa-home">HOME</span></button></a>
+    </div>
+
+    <div class="card">
+        <h3>Current Reservations</h3>
+        <!-- <div class="card-body">
+                <h3><span id="custName"></span></h3>
+                <h3><span id="custPhone"></span></h3>
+                <h3><span id="custEmail"></span></h3>
+                <h3><span id="custId"></span></h3>
+            </div> -->
+    </div>
+    <br>
+    <div class="waitCard">
+        <h3>Waiting List</h3>
+    </div>
+    <a href="#" id="clear">Clear Table |</a>
+    <a href="/api/customerInfo">API Table Link|</a>
+    <a href="/api/waitlist">API Wait List|</a>
+    <script type="text/javascript">
+        let classCard = $(".card")
+        $.get("/api/customerInfo/", function (data) {
+            console.log(data);
+
+            for (let i = 0; i < data.length; i++) {
+                // console.log(data[i])
+                // if(i< data.length){
+                let div = $("<div>");
+                div.addClass("card-body");
+                /*
+                    <div card-body>
+                    
+                    </div>
+                    <h3><span custName></span>
+                */
+                let h3Name = $("<h3>");
+                let spanName = $("<span>");
+                spanName.addClass("custName")
+                spanName.text(data[i].name)
+                h3Name.append(spanName)
+                // create 3 of these
+                let h3Phone = $("<h3>");
+                let spanPhone = $("<span>");
+                spanPhone.addClass("custPhone")
+                spanPhone.text(data[i].phoneNumber)
+                h3Phone.append(spanPhone)
+
+                let h3Email = $("<h3>");
+                let spanEmail = $("<span>");
+                spanEmail.addClass("custEmail")
+                spanEmail.text(data[i].email)
+                h3Email.append(spanEmail)
+                let h3Id = $("<h3>");
+                let spanId = $("<span>");
+                spanId.addClass("custName")
+                spanId.text(data[i].uniqueID)
+                h3Id.append(spanId)
+                // let phone= $("#custPhone").text(data[i].phoneNumber);
+                // span1.append(phone);
+                // h3.append(span1);
+                //   let name=$("#custName").text(data[i].name);
+                //   let email=$("#custEmail").text(data[i].email);
+                //   let id=$("#custId").text(data[i].uniqueID);
+                div.append(h3Name, h3Phone, h3Email, h3Id);
+                classCard.append(div);
+
+                // } 
+
+            }
+
+
+
+
+        });
+        let waitCard = $(".waitCard")
+        $.get("/api/waitlist", function (data) {
+            console.log("WAIT LIST", data);
+
+            for (let i = 0; i < data.length; i++) {
+                // console.log(data[i])
+                // if(i< data.length){
+                let div = $("<div>");
+                div.addClass("card-body");
+                /*
+                    <div card-body>
+                    
+                    </div>
+                    <h3><span custName></span>
+                */
+                let h3Name = $("<h3>");
+                let spanName = $("<span>");
+                spanName.addClass("custName")
+                spanName.text(data[i].name)
+                h3Name.append(spanName)
+                // create 3 of these
+                let h3Phone = $("<h3>");
+                let spanPhone = $("<span>");
+                spanPhone.addClass("custPhone")
+                spanPhone.text(data[i].phoneNumber)
+                h3Phone.append(spanPhone)
+
+                let h3Email = $("<h3>");
+                let spanEmail = $("<span>");
+                spanEmail.addClass("custEmail")
+                spanEmail.text(data[i].email)
+                h3Email.append(spanEmail)
+                let h3Id = $("<h3>");
+                let spanId = $("<span>");
+                spanId.addClass("custName")
+                spanId.text(data[i].uniqueID)
+                h3Id.append(spanId)
+                // let phone= $("#custPhone").text(data[i].phoneNumber);
+                // span1.append(phone);
+                // h3.append(span1);
+                //   let name=$("#custName").text(data[i].name);
+                //   let email=$("#custEmail").text(data[i].email);
+                //   let id=$("#custId").text(data[i].uniqueID);
+                div.append(h3Name, h3Phone, h3Email, h3Id);
+                waitCard.append(div);
+                // } 
+
+            }
+        });
+        $("#clear").click(function () {
+
+            $.post("/api/clearTable", function (data) {
+                $(".card").empty();
+                $(".waitCard").empty();
+
+            });
+
+
+        });
+    </script>
+
+</body>
+
+</html>
